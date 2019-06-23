@@ -3666,7 +3666,6 @@ static int load_module(struct load_info *info, const char __user *uargs,
 		err = PTR_ERR(mod);
 		goto free_copy;
 	}
-
 	audit_log_kern_module(mod->name);
 
 	/* Reserve our place in the list. */
@@ -3774,6 +3773,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
 	/* Done! */
 	trace_module_load(mod);
 
+	printk("%s module = %s",__func__,mod->name);
 	return do_init_module(mod);
 
  sysfs_cleanup:
@@ -3835,6 +3835,7 @@ SYSCALL_DEFINE3(init_module, void __user *, umod,
 	int err;
 	struct load_info info = { };
 
+	printk("%s %s \n",__func__,uargs);
 	err = may_init_module();
 	if (err)
 		return err;

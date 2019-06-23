@@ -343,6 +343,7 @@ static int spi_drv_probe(struct device *dev)
 	struct spi_device		*spi = to_spi_device(dev);
 	int ret;
 
+	//printk("init name %s driver name %s \n",dev->init_name,dev->driver->name);
 	ret = of_clk_set_defaults(dev->of_node, false);
 	if (ret)
 		return ret;
@@ -395,6 +396,7 @@ int __spi_register_driver(struct module *owner, struct spi_driver *sdrv)
 {
 	sdrv->driver.owner = owner;
 	sdrv->driver.bus = &spi_bus_type;
+        //printk("%s name %s probe %p \n",__func__,(&sdrv->driver)->name,sdrv->probe);
 	if (sdrv->probe)
 		sdrv->driver.probe = spi_drv_probe;
 	if (sdrv->remove)
