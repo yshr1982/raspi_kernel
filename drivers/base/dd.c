@@ -400,7 +400,7 @@ re_probe:
 		if (ret)
 			goto probe_failed;
 	}
-
+	printk("%s device %s probe %p \n",__func__,dev_name(dev),dev->bus->probe);
 	if (dev->bus->probe) {
 		ret = dev->bus->probe(dev);
 		if (ret)
@@ -535,6 +535,7 @@ int driver_probe_device(struct device_driver *drv, struct device *dev)
 {
 	int ret = 0;
 
+	printk("%s device %s with driver %s\n",__func__,dev_name(dev),drv->name);
 	if (!device_is_registered(dev))
 		return -ENODEV;
 
@@ -624,6 +625,7 @@ static int __device_attach_driver(struct device_driver *drv, void *_data)
 
 	ret = driver_match_device(drv, dev);
 	if (ret == 0) {
+		printk("no match %s %s \n",drv->name,dev_name(dev));
 		/* no match */
 		return 0;
 	} else if (ret == -EPROBE_DEFER) {
@@ -799,6 +801,7 @@ static int __driver_attach(struct device *dev, void *data)
  */
 int driver_attach(struct device_driver *drv)
 {
+	printk("%s driver name %s",__func__,drv->name);
 	return bus_for_each_dev(drv->bus, NULL, drv, __driver_attach);
 }
 EXPORT_SYMBOL_GPL(driver_attach);

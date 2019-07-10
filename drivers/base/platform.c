@@ -967,6 +967,7 @@ static int platform_match(struct device *dev, struct device_driver *drv)
 	struct platform_device *pdev = to_platform_device(dev);
 	struct platform_driver *pdrv = to_platform_driver(drv);
 
+	printk("pdev name %s drv name %s \n",pdev->name,drv->name);
 	/* When driver_override is set, only bind to the matching driver */
 	if (pdev->driver_override)
 		return !strcmp(pdev->driver_override, drv->name);

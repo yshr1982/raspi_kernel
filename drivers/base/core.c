@@ -1761,7 +1761,8 @@ int device_add(struct device *dev)
 		if (error)
 			goto done;
 	}
-
+        // my debug
+        //printk("%s : dev name : %s \n",__func__,dev_name(dev));
 	/*
 	 * for statically allocated devices, which should all be converted
 	 * some day, we need to initialize the name. We prevent reading back

@@ -212,10 +212,12 @@ static ssize_t bind_store(struct device_driver *drv, const char *buf,
 	int err = -ENODEV;
 
 	dev = bus_find_device_by_name(bus, NULL, buf);
+	printk("%s device name %s \n",__func__,buf);
 	if (dev && dev->driver == NULL && driver_match_device(drv, dev)) {
 		if (dev->parent)	/* Needed for USB */
 			device_lock(dev->parent);
 		device_lock(dev);
+		printk("do probe function \n");
 		err = driver_probe_device(drv, dev);
 		device_unlock(dev);
 		if (dev->parent)
@@ -228,6 +230,8 @@ static ssize_t bind_store(struct device_driver *drv, const char *buf,
 			/* driver didn't accept device */
 			err = -ENODEV;
 		}
+	}else{
+		printk("do not match device name %s %s\n",buf,drv->name);
 	}
 	put_device(dev);
 	bus_put(bus);
@@ -256,6 +260,7 @@ static ssize_t store_drivers_probe(struct bus_type *bus,
 	struct device *dev;
 	int err = -EINVAL;
 
+	printk("%s %s\n",__func__,buf);
 	dev = bus_find_device_by_name(bus, NULL, buf);
 	if (!dev)
 		return -ENODEV;
@@ -516,6 +521,7 @@ void bus_probe_device(struct device *dev)
 	struct bus_type *bus = dev->bus;
 	struct subsys_interface *sif;
 
+	printk("%s dev name %s",__func__,dev_name(dev));
 	if (!bus)
 		return;
 
@@ -640,8 +646,10 @@ int bus_add_driver(struct device_driver *drv)
 	int error = 0;
 
 	bus = bus_get(drv->bus);
-	if (!bus)
+	if (!bus){
+		printk("%s error %s \n",__func__,drv->name);
 		return -EINVAL;
+	}
 
 	pr_debug("bus: '%s': add driver %s\n", bus->name, drv->name);
 

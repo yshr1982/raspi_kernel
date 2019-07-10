@@ -27,6 +27,7 @@
 const struct of_device_id *of_match_device(const struct of_device_id *matches,
 					   const struct device *dev)
 {
+	printk("%s matchs %s of_node %s matches %p \n",__func__,matches->name,dev->of_node->name,matches);
 	if ((!matches) || (!dev->of_node))
 		return NULL;
 	return of_match_node(matches, dev->of_node);

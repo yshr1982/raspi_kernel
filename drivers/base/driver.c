@@ -166,9 +166,11 @@ int driver_register(struct device_driver *drv)
 	}
 
 	ret = bus_add_driver(drv);
+        printk("%s add Driver %s ret = %d\n",__func__ , drv->name ,ret);
 	if (ret)
 		return ret;
 	ret = driver_add_groups(drv, drv->groups);
+        printk("%s add group %s ret = %d\n",__func__ , drv->name ,ret);
 	if (ret) {
 		bus_remove_driver(drv);
 		return ret;
