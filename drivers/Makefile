@@ -183,3 +183,10 @@ obj-$(CONFIG_FPGA)		+= fpga/
 obj-$(CONFIG_FSI)		+= fsi/
 obj-$(CONFIG_TEE)		+= tee/
 obj-$(CONFIG_MULTIPLEXER)	+= mux/
+
+
+#obj-y				+= my_spi.o
+#obj-y				+= my_hw.o
+obj-y				+= my_temp.o
+
+
