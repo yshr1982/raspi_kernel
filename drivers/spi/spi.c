@@ -302,6 +302,7 @@ static int spi_match_device(struct device *dev, struct device_driver *drv)
 	const struct spi_device	*spi = to_spi_device(dev);
 	const struct spi_driver	*sdrv = to_spi_driver(drv);
 
+	printk("%s dev name %s drv name %s \n",__func__,dev_name(dev),drv->name);
 	/* Attempt an OF style match */
 	if (of_driver_match_device(dev, drv))
 		return 1;
@@ -2760,12 +2761,13 @@ int spi_setup(struct spi_device *spi)
 			bad_bits);
 		return -EINVAL;
 	}
-
+        
 	if (!spi->bits_per_word)
 		spi->bits_per_word = 8;
 
 	status = __spi_validate_bits_per_word(spi->controller,
 					      spi->bits_per_word);
+        printk("%s status %d mode %x mode_bits %x bad_bits %x \n",__func__,status,spi->mode,spi->controller->mode_bits,bad_bits);
 	if (status)
 		return status;
 
